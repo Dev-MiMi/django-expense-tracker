@@ -1,0 +1,160 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4F46E5; /* Indigo */
+            --background: #F9FAFB; /* Very light gray */
+            --text: #1F2937; /* Dark gray */
+            --accent: #6B7280; /* Gray for secondary text */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: var(--accent);
+            margin-top: 0.5rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature {
+            background: #F9FAFB;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        .feature:hover {
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        .feature i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .feature h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .feature p {
+            font-size: 0.85rem;
+            color: var(--accent);
+        }
+
+        .cta {
+            text-align: center;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #4338CA; /* Slightly darker indigo */
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Expense Tracker</h1>
+            <p>Manage your finances with ease. Track spending, set goals, and budget smartly.</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h3>Track Spending</h3>
+                <p>Monitor expenses with clear insights.</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-flag-checkered"></i>
+                <h3>Set Goals</h3>
+                <p>Create and track savings goals.</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-piggy-bank"></i>
+                <h3>Budget Smartly</h3>
+                <p>Plan budgets and save more.</p>
+            </div>
+        </div>
+
+        <div class="cta">
+            <button class="btn" onclick="window.location.href='#'">Start Now</button>
+        </div>
+    </div>
+</body>
+</html>
