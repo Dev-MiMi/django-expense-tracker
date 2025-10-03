@@ -1,0 +1,67 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+
+    <!-- External fonts/icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ✅ Your static CSS file -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="particles" id="particles"></div>
+        <div class="header">
+            <h1>Welcome to Expense Tracker</h1>
+            <p>Your ultimate tool for managing finances seamlessly. Connect banks, track spending, and achieve goals.</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h3>Track Spending</h3>
+                <p>Analyze expenses across categories with real-time insights and visualizations.</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-flag-checkered"></i>
+                <h3>Set Goals</h3>
+                <p>Create personalized savings goals, monitor progress, and get motivational alerts.</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-piggy-bank"></i>
+                <h3>Budget Smartly</h3>
+                <p>Build budgets, identify savings opportunities, and foster healthy financial habits.</p>
+            </div>
+        </div>
+
+        <div class="cta">
+            <button class="btn" onclick="window.location.href='#'">Start Now</button>
+        </div>
+    </div>
+
+    <script>
+        // Particle animation
+        const particlesContainer = document.getElementById('particles');
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 5 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+            particlesContainer.appendChild(particle);
+            setTimeout(() => particle.remove(), 15000);
+        }
+        setInterval(createParticle, 300);
+    </script>
+</body>
+</html>

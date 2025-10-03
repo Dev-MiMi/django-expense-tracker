@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Register — ExpenseTracker</title>
+  <link rel="stylesheet" href="{% static 'css/signup.css' %}" />
+</head>
+<body>
+  <main class="page-wrap">
+    <section class="card">
+      <div class="card-brand">
+        <div class="logo">ET</div>
+        <div class="brand-text">
+          <h1>ExpenseTracker</h1>
+          <p class="tag">Track smarter • Save more</p>
+        </div>
+      </div>
+
+      <h2 class="card-title">Create an account</h2>
+
+      <form method="post" novalidate class="reg-form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="errors">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
+        <div class="two-col">
+          <label class="field">
+            <span>First name</span>
+            {{ form.first_name }}
+          </label>
+
+          <label class="field">
+            <span>Last name</span>
+            {{ form.last_name }}
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Username</span>
+          {{ form.username }}
+          {% if form.username.errors %}<div class="field-error">{{ form.username.errors }}</div>{% endif %}
+        </label>
+
+        <label class="field">
+          <span>Email</span>
+          {{ form.email }}
+          {% if form.email.errors %}<div class="field-error">{{ form.email.errors }}</div>{% endif %}
+        </label>
+
+        <label class="field password-field">
+          <span>Password</span>
+          <div class="pw-row">
+            {{ form.password1 }}
+            <button type="button" class="pw-toggle" aria-label="Toggle password">👁️</button>
+          </div>
+          <ul class="pw-rules" id="pw-rules">
+            <li class="rule" data-check="length">8–32 characters</li>
+            <li class="rule" data-check="lower">1 lowercase</li>
+            <li class="rule" data-check="upper">1 uppercase</li>
+            <li class="rule" data-check="number">1 number</li>
+            <li class="rule" data-check="special">1 special char</li>
+          </ul>
+          {% if form.password1.errors %}<div class="field-error">{{ form.password1.errors }}</div>{% endif %}
+        </label>
+
+        <label class="field password-field">
+          <span>Confirm password</span>
+          <div class="pw-row">
+            {{ form.password2 }}
+            <button type="button" class="pw-toggle" aria-label="Toggle password">👁️</button>
+          </div>
+          {% if form.password2.errors %}<div class="field-error">{{ form.password2.errors }}</div>{% endif %}
+        </label>
+
+        <button type="submit" class="btn-submit">Register</button>
+
+        <p class="small">
+          By creating an account you agree to our
+          <a href="#" class="link">Terms</a> and <a href="#" class="link">Privacy Policy</a>.
+        </p>
+
+        <p class="small muted">Already have an account?
+          <!-- safe fallback: uses context variable if provided, otherwise /login/ -->
+          <a href="{{ login_url|default:'/login/' }}">Log in</a>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // password toggles and simple rule-check (same as earlier)
+    document.querySelectorAll('.pw-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('.pw-row') || btn.parentElement;
+        const input = row.querySelector('input[type="password"], input[type="text"]');
+        if (!input) return;
+        input.type = input.type === 'password' ? 'text' : 'password';
+      });
+    });
+
+    const pwInput = document.querySelector('input[name="password1"], input#id_password1');
+    const ruleEls = document.querySelectorAll('#pw-rules .rule');
+
+    function checkRules(value) {
+      const rules = {
+        length: value.length >= 8 && value.length <= 32,
+        lower: /[a-z]/.test(value),
+        upper: /[A-Z]/.test(value),
+        number: /[0-9]/.test(value),
+        special: /[^A-Za-z0-9]/.test(value),
+      };
+      ruleEls.forEach(el => {
+        const ok = rules[el.dataset.check];
+        el.classList.toggle('ok', !!ok);
+      });
+    }
+
+    if (pwInput) {
+      pwInput.addEventListener('input', (e) => checkRules(e.target.value));
+      checkRules(pwInput.value || '');
+    }
+  </script>
+</body>
+</html>
