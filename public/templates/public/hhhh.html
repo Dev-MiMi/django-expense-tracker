@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set New Password</title>
+    <link rel="stylesheet" href="{% static 'css/password_reset_confirm.css' %}">
+    <!-- Assuming Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="confirm-wrapper">
+        <div class="confirm-container">
+            <!-- Optional header icon; screenshot doesn't have one, but CSS supports it -->
+            <div class="confirm-header">
+                <i class="fas fa-lock"></i>
+                <h1>Set New Password</h1>
+                <p class="confirm-note">Enter a new password and confirm password to create a new password.</p>
+            </div>
+
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="error-message">{{ error|escape }}</div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="error-message">{{ error|escape }}</div>
+                {% endfor %}
+            {% endif %}
+
+	    <form class="confirm-form" method="post">
+                {% csrf_token %}
+                <div class="password-group">
+                    <label for="{{ form.new_password1.id_for_label }}">New Password*</label>
+                    <input type="password" name="new_password1" id="{{ form.new_password1.id_for_label }}" placeholder="********" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="password-group">
+                    <label for="{{ form.new_password2.id_for_label }}">Confirm New Password*</label>
+                    <input type="password" name="new_password2" id="{{ form.new_password2.id_for_label }}" placeholder="********" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <button type="submit" class="confirm-btn">Create New Password</button>
+            </form>
+
+            <div class="confirm-links">
+                <a href="{% url 'login' %}">Back to Login</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
