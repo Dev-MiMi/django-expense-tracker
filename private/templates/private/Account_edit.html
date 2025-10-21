@@ -1,0 +1,26 @@
+{% extends "private/base_toggle.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card p-4">
+        <h1 class="card-title">Edit Account</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{% url 'account-detail' object.id %}" class="btn btn-secondary">Cancel</a>
+            <a href="{% url 'account-delete' object.id %}" class="btn btn-danger">Delete</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "private/base_toggle.html" %}
+
+{% block content %}
+<div class="account-section">
+    {% if records %}
+        <h2>Your Records</h2>
+        <ul>
+            {% for record in records %}
+                <li>
+                    <a href="{% url 'record-detail-edit' record.id %}">
+                        <strong>{{ record.category }}</strong> —
+                        {% if record.account %}
+                            {{ record.account }} |
+                        {% endif %}
+                        {{ record.record_type|title }} |
+                        {{ record.currency }} {{ record.amount }} |
+                        {{ record.date|date:"M d, Y" }}  {# formatted date #}
+                        {% if record.time %}
+                            at {{ record.time|time:"H:i" }}
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven’t added any records yet.</p>
+    {% endif %}
+
+    <a href="{% url 'record-add' %}" class="btn btn-primary mt-3">+ Add Record</a>
+</div>
+{% endblock %}

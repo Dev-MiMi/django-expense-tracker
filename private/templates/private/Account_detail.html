@@ -1,0 +1,18 @@
+{% extends "private/base_toggle.html" %}
+
+{% block content %}
+<div class="account-detail">
+  <h2>{{ account.name }}</h2>
+
+  <p><strong>Account Number:</strong> {{ account.acct_num|default:"N/A" }}</p>
+  <p><strong>Balance:</strong> {{ account.currency }} {{ account.balance }}</p>
+  <p><strong>Account Type:</strong> {{ account.account_type }}</p>
+  <p><strong>Status:</strong> {{ account.is_active|yesno:"Active,Inactive" }}</p>
+  <p><strong>Date Added:</strong> {{ account.created_at|date:"M d, Y" }}</p>
+
+  <div class="actions mt-3">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back</a>
+    <a href="{% url 'account-edit' account.id %}" class="btn btn-primary">Edit</a>
+  </div>
+</div>
+{% endblock %}

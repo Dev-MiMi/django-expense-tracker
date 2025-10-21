@@ -16,7 +16,7 @@
 
     <nav class="sidebar" id="sidebar" role="navigation" aria-expanded="false">
         <ul>
-		<li><a href="{% url 'dashboard' %}" class="{% if request.path == '/dashboard/' %}active{% endif %}">🏠 Home</a></li>
+                <li><a href="{% url 'dashboard' %}" class="{% if request.path == '/dashboard/' %}active{% endif %}">🏠 Home</a></li>
             <li><a href="#" class="{% if request.path == '/accounts/' %}active{% endif %}">💰 Accounts</a></li>
             <li><a href="#" class="{% if request.path == '/debts/' %}active{% endif %}">📉 Debts</a></li>
             <li><a href="#" class="{% if request.path == '/goals/' %}active{% endif %}">🎯 Goals</a></li>
@@ -54,63 +54,6 @@
 
     <div class="overlay" id="overlay"></div>
 
-    <script>
-        const menuToggle = document.getElementById("menuToggle");
-        const sidebar = document.getElementById("sidebar");
-        const overlay = document.getElementById("overlay");
-        const dropdownToggle = document.querySelector(".dropdown-toggle");
-        const dropdownMenu = document.querySelector(".dropdown-menu");
-        const themeToggle = document.getElementById("theme-toggle");
-
-        // Open/close sidebar
-        menuToggle.addEventListener("click", () => {
-            const isActive = sidebar.classList.toggle("active");
-            overlay.classList.toggle("active");
-            sidebar.setAttribute("aria-expanded", isActive);
-        });
-
-        // Close sidebar when clicking outside it
-        overlay.addEventListener("click", () => {
-            sidebar.classList.remove("active");
-            overlay.classList.remove("active");
-            sidebar.setAttribute("aria-expanded", "false");
-            if (dropdownMenu) {
-                dropdownMenu.classList.remove("active");
-                dropdownToggle.setAttribute("aria-expanded", "false");
-            }
-        });
-
-        // Toggle dropdown menu
-        if (dropdownToggle) {
-            dropdownToggle.addEventListener("click", (event) => {
-                event.preventDefault();
-                const isActive = dropdownMenu.classList.toggle("active");
-                dropdownToggle.setAttribute("aria-expanded", isActive);
-            });
-        }
-
-        // Close sidebar and dropdown after navigation for real links
-        document.querySelectorAll("#sidebar a").forEach(link => {
-            link.addEventListener("click", (event) => {
-                const href = link.getAttribute("href");
-                if (!href || href === "#") {
-                    event.preventDefault();
-                    return;
-                }
-                sidebar.classList.remove("active");
-                overlay.classList.remove("active");
-                sidebar.setAttribute("aria-expanded", "false");
-                if (dropdownMenu) {
-                    dropdownMenu.classList.remove("active");
-                    dropdownToggle.setAttribute("aria-expanded", "false");
-                }
-            });
-        });
-
-        // Theme toggle
-        themeToggle.addEventListener("click", () => {
-            document.documentElement.dataset.theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-        });
-    </script>
+    <script src="{% static 'js/base_toggle.js' %}"></script>
 </body>
 </html>

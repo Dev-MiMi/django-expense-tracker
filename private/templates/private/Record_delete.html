@@ -1,0 +1,18 @@
+{% extends "private/base_toggle.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Delete Record</h2>
+    <p>
+        Are you sure you want to permanently delete this record:
+        <strong>{{ object.category }}</strong> — {{ object.account }}
+        ({{ object.currency }} {{ object.amount }})?
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'records' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

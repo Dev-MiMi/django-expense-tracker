@@ -1,0 +1,70 @@
+{% extends "private/base_toggle.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card p-4">
+        <h1 class="card-title mb-4">Edit Record</h1>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {# Non-field errors #}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {# Field errors and fields #}
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger mt-1">
+                            {% for error in field.errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{% url 'records' %}" class="btn btn-secondary">Cancel</a>
+                <a href="{% url 'record-delete' object.id %}" class="btn btn-danger">Delete</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const recordTypeField = document.getElementById("id_record_type");
+    const accountField = document.getElementById("id_account").closest(".mb-3");
+    const fromAccountField = document.getElementById("id_from_account").closest(".mb-3");
+    const toAccountField = document.getElementById("id_to_account").closest(".mb-3");
+
+    function toggleFields() {
+        const type = recordTypeField.value;
+
+        if (type === "transfer") {
+            accountField.style.display = "none";
+            fromAccountField.style.display = "";
+            toAccountField.style.display = "";
+        } else {
+            accountField.style.display = "";
+            fromAccountField.style.display = "none";
+            toAccountField.style.display = "none";
+        }
+    }
+
+    recordTypeField.addEventListener("change", toggleFields);
+    toggleFields();
+});
+</script>
+{% endblock %}

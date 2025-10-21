@@ -1,0 +1,39 @@
+{% extends 'private/base_toggle.html' %}
+{% load static %}
+
+{% block content %}
+<h1>New Record</h1>
+<form method="post" id="recordForm">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{% url 'records' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const recordTypeField = document.getElementById("id_record_type");
+    const accountField = document.getElementById("id_account").closest("p");
+    const fromAccountField = document.getElementById("id_from_account").closest("p");
+    const toAccountField = document.getElementById("id_to_account").closest("p");
+
+    function toggleFields() {
+        const type = recordTypeField.value;
+
+        if (type === "transfer") {
+            accountField.style.display = "none";
+            fromAccountField.style.display = "";
+            toAccountField.style.display = "";
+        } else {
+            accountField.style.display = "";
+            fromAccountField.style.display = "none";
+            toAccountField.style.display = "none";
+        }
+    }
+
+    recordTypeField.addEventListener("change", toggleFields);
+    toggleFields(); // run on page load
+});
+</script>
+{% endblock %}

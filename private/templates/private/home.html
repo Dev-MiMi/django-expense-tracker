@@ -1,5 +1,23 @@
 {% extends "private/base_toggle.html" %}
 
 {% block content %}
-    <!-- Your page content goes here -->
+<div class="account-section">
+    {% if accounts %}
+        <h2>Your Accounts</h2>
+        <ul>
+            {% for acct in accounts %}
+                <li>
+                    <a href="{% url 'account-detail' acct.id %}">
+                        <strong>{{ acct.name }}</strong>
+                    </a> — {{ acct.currency }} {{ acct.balance }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven’t created any accounts yet.</p>
+    {% endif %}
+
+    <a href="{% url 'account' %}" class="btn btn-primary mt-3">+ Add Account</a>
+    <a href="{% url 'records' %}" class="btn btn-secondary mt-3 ms-2">View Records</a>
+</div>
 {% endblock %}
