@@ -17,7 +17,11 @@
         <p>You haven’t created any accounts yet.</p>
     {% endif %}
 
-    <a href="{% url 'account' %}" class="btn btn-primary mt-3">+ Add Account</a>
-    <a href="{% url 'records' %}" class="btn btn-secondary mt-3 ms-2">View Records</a>
+    <div class="mt-3">
+        <a href="{% url 'account' %}" class="btn btn-primary">+ Add Account</a>
+        <a href="{% url 'records' %}" class="btn btn-secondary ms-2">View Records</a>
+        <a href="{% url 'budget-list' %}" class="btn btn-info ms-2">View Budgets</a>
+        <a href="{% url 'goal-list' %}" class="btn btn-success ms-2">View Goals</a>
+    </div>
 </div>
 {% endblock %}

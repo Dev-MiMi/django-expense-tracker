@@ -1,5 +1,6 @@
 {% extends 'public/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}Login - Expense Tracker{% endblock %}
 
@@ -23,7 +24,7 @@
       
       <div class="input-group">
         <i class="fas fa-user"></i>
-        {{ form.username.label_tag }}
+        <label for="{{ form.username.id_for_label }}">Username or Email</label>
         {{ form.username }}
       </div>
       

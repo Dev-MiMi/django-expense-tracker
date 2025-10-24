@@ -1,0 +1,81 @@
+{% extends "private/base_toggle.html" %}
+{% load static %}
+{% load math_filters %}
+
+{% block title %}Budgets{% endblock %}
+
+{% block extra_css %}
+<style>
+    .progress {
+        height: 10px;
+    }
+    .progress-bar {
+        transition: width 0.4s ease;
+    }
+    .budget-card:hover {
+        background-color: #f8f9fa;
+        transition: background 0.3s;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Your Budgets</h2>
+        <a href="{% url 'budget-add' %}" class="btn btn-primary">
+            + Add Budget
+        </a>
+    </div>
+
+    {% if budgets %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Spent</th>
+                        <th>Progress</th>
+                        <th>Period</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for budget in budgets %}
+                    <tr class="budget-card">
+                        <td><strong>{{ budget.name }}</strong></td>
+                        <td>{{ budget.currency }} {{ budget.amount }}</td>
+                        <td>{{ budget.currency }} {{ budget.spent }}</td>
+
+                        <td style="width: 200px;">
+                            {% with percent=budget.spent|divided_by:budget.amount %}
+                                <div class="progress">
+                                    <div class="progress-bar bg-success"
+                                        role="progressbar"
+                                        style="width: {{ percent|floatformat:0 }}%;">
+                                    </div>
+                                </div>
+                                <small>{{ percent|floatformat:0 }}%</small>
+                            {% endwith %}
+                        </td>
+
+                        <td>
+                            {{ budget.start_date }} → {{ budget.end_date }}
+                        </td>
+
+                        <td>
+                            <a href="{% url 'budget-edit' budget.id %}" class="btn btn-sm btn-outline-primary">
+                                Edit
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-muted">You haven’t created any budgets yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+/* Reset and base styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+}
+
+.form-container {
+    max-width: 400px;
+    margin: 20px auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-header {
+    background-color: #1e90ff; /* Blue color replacing green */
+    color: #fff;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.close-btn, .check-btn {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.close-btn:hover, .check-btn:hover {
+    color: #ddd;
+}
+
+form {
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+form p {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+form input,
+form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: #fff;
+}
+
+form input:focus,
+form select:focus {
+    border-color: #1e90ff;
+    outline: none;
+}
+
+.btn-save {
+    width: 100%;
+    padding: 12px;
+    background-color: #1e90ff; /* Blue button */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-save:hover {
+    background-color: #104e8b; /* Darker blue on hover */
+}

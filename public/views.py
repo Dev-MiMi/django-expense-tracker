@@ -13,4 +13,4 @@ def get_started(request):
 class RegisterView(CreateView):
     form_class = CustomUserCreation
     template_name = "public/signup.html"
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("login")

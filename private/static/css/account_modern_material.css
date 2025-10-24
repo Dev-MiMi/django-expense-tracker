@@ -1,0 +1,148 @@
+/* Mobile-first material-like form (matching your screenshot) */
+
+:root{
+  --green: #00a651;
+  --muted: #9aa3ab;
+  --divider: #e9ebec;
+  --text: #212121;
+  --bg: #ffffff;
+  --maxw: 480px;
+  font-family: "Google Sans", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+* { box-sizing: border-box; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+.screen {
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+/* top green bar */
+.topbar{
+  width: 100%;
+  max-width: var(--maxw);
+  background: var(--green);
+  height: 56px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color: white;
+  padding: 0 14px;
+  gap:10px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+}
+.icon-btn{
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  line-height:1;
+  padding:6px;
+  cursor:pointer;
+  opacity: 0.98;
+}
+.top-title{
+  font-weight: 600;
+  font-size: 18px;
+  text-align: center;
+  flex: 1;
+}
+
+/* main form shell - centered with same width as topbar */
+.form-shell{
+  width: 100%;
+  max-width: var(--maxw);
+  background: var(--bg);
+  padding: 8px 0 60px; /* bottom space for thumb */
+}
+
+/* field block - wide and airy */
+.field {
+  width: 100%;
+  padding: 18px 18px;
+  border-bottom: 1px solid var(--divider);
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+}
+
+/* label small & muted */
+.field > label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  letter-spacing: 0.1px;
+}
+
+/* inputs & selects: large, tall, no outer border, only separator lines */
+.field input[type="text"],
+.field input[type="number"],
+.field select,
+.field input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 22px;          /* large displayed value like screenshot */
+  color: var(--text);
+  padding: 6px 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* make select display large and clean, remove native arrow */
+.field select {
+  position: relative;
+  padding-right: 28px;
+}
+
+/* custom arrow on selects (right side) */
+.field select::-ms-expand { display: none; }
+.field select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, #999 50%),
+    linear-gradient(135deg, #999 50%, transparent 50%);
+  background-position: calc(100% - 12px) calc(50% + 3px), calc(100% - 6px) calc(50% + 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+/* placeholder / empty input hint (if widget has placeholder attribute) */
+.field input::placeholder {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* focus accent (thin green line under the whole field) */
+.field:focus-within {
+  border-bottom-color: var(--green);
+  background: #ffffff;
+}
+
+/* Save button floating at bottom on large devices - not needed if header Save is used */
+.btn-save {
+  display:block;
+  width: calc(100% - 36px);
+  margin: 18px auto 0;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight:600;
+}
+
+/* small screens: full width and big spacing */
+@media (max-width:420px) {
+  .top-title { font-size: 16px; }
+  .field { padding: 20px; }
+  .field > label { font-size: 13px; }
+  .field input, .field select { font-size: 22px; }
+}

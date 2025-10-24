@@ -19,28 +19,28 @@
       </p>
     </div>
 
-    <form method="post" class="login-form">
+    <form method="post" class="login-form" id="login-form">
       {% csrf_token %}
-      
+
       <div class="input-group">
         <i class="fas fa-user"></i>
         <label for="{{ form.username.id_for_label }}">Username or Email</label>
         {{ form.username }}
       </div>
-      
+
       <div class="input-group">
         <i class="fas fa-lock"></i>
         {{ form.password.label_tag }}
         {{ form.password }}
       </div>
-      
+
       {% if form.errors %}
         <div class="error-message">
           {{ form.errors }}
         </div>
       {% endif %}
-      
-      <button type="submit" class="login-btn">
+
+      <button type="submit" class="login-btn" id="login-btn">
         <i class="fas fa-arrow-right"></i> Sign In
       </button>
     </form>
@@ -51,4 +51,12 @@
     </div>
   </div>
 </main>
+
+<script>
+  document.getElementById('login-form').addEventListener('submit', function() {
+    const btn = document.getElementById('login-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';  // Optional: Show loading state
+  });
+</script>
 {% endblock %}
