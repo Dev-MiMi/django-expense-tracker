@@ -17,9 +17,25 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+from public.views_jwt import EmailOrUsernameLoginView
+from public.views_password_reset import (
+        PasswordResetRequestView,
+        PasswordResetConfirmView,
+        )
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("public.urls")),
     path("", include("private.urls")),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/", include("public.api_urls")),
+    path("api/login/", EmailOrUsernameLoginView.as_view(), name="login"),
+    path("api/login/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/password-reset/", PasswordResetRequestView.as_view(), name="api-password-reset"),
+    path("api/password-reset-confirm/", PasswordResetConfirmView.as_view(), name="api-password-reset-confirm"),
 ]
