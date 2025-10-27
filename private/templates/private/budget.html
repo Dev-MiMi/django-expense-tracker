@@ -1,87 +1,69 @@
 {% extends "private/base_toggle.html" %}
-{% load static %}
-
-{% block title %}Create Budget{% endblock %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<h2>Create Budget</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
+<div class="container mt-4">
+    <h2>Create Budget</h2>
+    <form method="post">
+        {% csrf_token %}
 
-    <!-- Name -->
-    <label for="{{ form.name.id_for_label }}">Name</label>
-    {{ form.name }}
-    {{ form.name.errors }}
+        {{ form.media }} <!-- ✅ Required for Select2 widget to load properly -->
 
-    <!-- Categories Multiselect Dropdown -->
-    <label for="{{ form.categories.id_for_label }}">Categories</label>
-    <div class="dropdown">
-        <button type="button" class="btn btn-outline-secondary dropdown-toggle" id="categoryDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            Select categories <span id="categoryBadge" class="badge bg-secondary ms-1">0 selected</span>
-        </button>
-        <ul class="dropdown-menu p-2" id="categoryMenu" aria-labelledby="categoryDropdown" style="width: 350px; max-height: 300px; overflow-y: auto;">
-            {% for choice in form.categories %}
-                <li class="dropdown-item p-1">
-                    <div class="form-check">
-                        {{ choice.tag }}
-                        <label class="form-check-label" for="{{ choice.id_for_label }}">
-                            {{ choice.choice_label }}
-                        </label>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-    {{ form.categories.errors }}
+        <div class="mb-3">
+            {{ form.name.label_tag }} 
+            {{ form.name }}
+        </div>
 
-    <!-- Period -->
-    <label for="{{ form.period.id_for_label }}">Period</label>
-    {{ form.period }}
-    {{ form.period.errors }}
+        <div class="mb-3">
+            {{ form.categories.label_tag }}
+            {{ form.categories }}
+        </div>
 
-    <!-- Accounts Multiselect Dropdown -->
-    <label for="{{ form.account.id_for_label }}">Accounts</label>
-    <div class="dropdown">
-        <button type="button" class="btn btn-outline-secondary dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            Choose accounts <span id="accountBadge" class="badge bg-secondary ms-1">0 selected</span>
-        </button>
-        <ul class="dropdown-menu p-2" id="accountMenu" aria-labelledby="accountDropdown" style="width: 350px; max-height: 300px; overflow-y: auto;">
-            {% for choice in form.account %}
-                <li class="dropdown-item p-1">
-                    <div class="form-check">
-                        {{ choice.tag }}
-                        <label class="form-check-label" for="{{ choice.id_for_label }}">
-                            {{ choice.choice_label }} ({{ choice.choice.value.currency }})
-                        </label>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div id="selectedAccountsDisplay" class="form-text text-muted">None selected</div>
-    {{ form.account.errors }}
+        <div class="mb-3">
+            {{ form.account.label_tag }}
+            {{ form.account }}
+        </div>
 
-    <!-- Currency: Read-only display, auto-updated by JS -->
-    <label>Currency</label>
-    <input id="currencyField" type="text" class="form-control" readonly value="{{ form.currency.value|default:'' }}" />
+        <div class="mb-3">
+            {{ form.period.label_tag }}
+            {{ form.period }}
+        </div>
 
-    <!-- Start/End Date -->
-    <label for="{{ form.start_date.id_for_label }}">Start Date</label>
-    {{ form.start_date }}
-    {{ form.start_date.errors }}
-    <label for="{{ form.end_date.id_for_label }}">End Date</label>
-    {{ form.end_date }}
-    {{ form.end_date.errors }}
+        <div class="mb-3">
+            {{ form.start_date.label_tag }}
+            {{ form.start_date }}
+        </div>
 
-    <!-- Amount -->
-    <label for="{{ form.amount.id_for_label }}">Amount</label>
-    {{ form.amount }}
-    {{ form.amount.errors }}
+        <div class="mb-3">
+            {{ form.end_date.label_tag }}
+            {{ form.end_date }}
+        </div>
 
-    <!-- Submit -->
-    <button type="submit" class="btn btn-primary">Save Budget</button>
-</form>
+        <div class="mb-3">
+            {{ form.amount.label_tag }}
+            {{ form.amount }}
+        </div>
 
-<script src="{% static 'js/budget.js' %}"></script>
+        <button type="submit" class="btn btn-primary">Save Budget</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function () {
+        // Initialize Select2
+        $('#id_categories').select2({
+            theme: 'bootstrap-5',
+            placeholder: 'Select categories',
+            allowClear: true
+        });
+
+        $('#id_account').select2({
+            theme: 'bootstrap-5',
+            placeholder: 'Select account(s)',
+            allowClear: true
+        });
+    });
+</script>
 {% endblock %}

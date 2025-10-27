@@ -6,11 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Expense Tracker{% endblock %}</title>
-
-    <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/base_toggle.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
 </head>
 <body>
     <header class="header">
@@ -20,12 +16,11 @@
 
     <nav class="sidebar" id="sidebar" role="navigation" aria-expanded="false">
         <ul>
-            <li><a href="{% url 'dashboard' %}" class="{% if request.path == '/dashboard/' %}active{% endif %}">🏠 Home</a></li>
+                <li><a href="{% url 'dashboard' %}" class="{% if request.path == '/dashboard/' %}active{% endif %}">🏠 Home</a></li>
             <li><a href="#" class="{% if request.path == '/accounts/' %}active{% endif %}">💰 Accounts</a></li>
             <li><a href="#" class="{% if request.path == '/debts/' %}active{% endif %}">📉 Debts</a></li>
             <li><a href="#" class="{% if request.path == '/goals/' %}active{% endif %}">🎯 Goals</a></li>
             <li><a href="#" class="{% if request.path == '/budgets/' %}active{% endif %}">💡 Budgets</a></li>
-
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
                     📊 Statistics
@@ -39,12 +34,11 @@
                     <li><a href="#" class="{% if request.path == '/statistics/assets/' %}active{% endif %}">🏦 Assets</a></li>
                 </ul>
             </li>
-
             <li><a href="#" class="{% if request.path == '/settings/' %}active{% endif %}">⚙️ Settings</a></li>
             <li><a href="#" class="{% if request.path == '/help/' %}active{% endif %}">❓ Help</a></li>
-
-            <li><button class="theme-toggle" id="theme-toggle">🌙 Toggle Theme</button></li>
-
+            <li>
+                <button class="theme-toggle" id="theme-toggle">🌙 Toggle Theme</button>
+            </li>
             <li class="logout-item">
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
@@ -60,13 +54,9 @@
 
     <div class="overlay" id="overlay"></div>
 
-    <!-- JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     <script src="{% static 'js/base_toggle.js' %}"></script>
-
-    <!-- Extra JavaScript from child templates (Select2 init, etc.) -->
-    {% block extra_js %}{% endblock %}
 </body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

@@ -16,7 +16,7 @@ from datetime import timedelta, date
 from public.models import CustomUser
 from django.core.exceptions import ValidationError
 
-
+# account form page
 class AccountForm(forms.ModelForm):
     balance = forms.DecimalField(
         max_digits=12,
@@ -81,7 +81,7 @@ class AccountForm(forms.ModelForm):
             raise forms.ValidationError("You already have an account with this name.")
         return name
 
-
+# record form page
 class RecordForm(forms.ModelForm):
     record_type = forms.ChoiceField(
         choices=RECORD_TYPE_CHOICES,
@@ -163,7 +163,7 @@ class RecordForm(forms.ModelForm):
 
         return cleaned_data
 
-
+# record edit form page
 class RecordUpdateForm(forms.ModelForm):
     class Meta:
         model = Record
@@ -185,8 +185,12 @@ class RecordUpdateForm(forms.ModelForm):
             self.fields[field].required = False
             self.fields[field].empty_label = None
 
+
+from django_select2.forms import Select2MultipleWidget
+
+# budget form page
 class BudgetForm(forms.ModelForm):
-    currency = forms.CharField(required=False, widget=forms.HiddenInput())  # Hidden, auto-set by JS
+    currency = forms.CharField(required=False, widget=forms.HiddenInput())
 
     class Meta:
         model = Budget
@@ -201,12 +205,8 @@ class BudgetForm(forms.ModelForm):
             "account",
         ]
         widgets = {
-            "categories": forms.CheckboxSelectMultiple(  # Renders checkboxes for multi-select
-                attrs={"class": "form-check-input"}
-            ),
-            "account": forms.CheckboxSelectMultiple(  # Renders checkboxes for multi-select
-                attrs={"class": "form-check-input"}
-            ),
+            "categories": Select2MultipleWidget(),
+            "account": Select2MultipleWidget(),
             "period": forms.Select(attrs={"class": "form-select"}),
             "start_date": forms.DateInput(
                 attrs={"type": "date", "class": "form-control"}
@@ -223,46 +223,26 @@ class BudgetForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
+
         self.fields["period"].required = True
-        # Remove empty choice for period
-        self.fields["period"].choices = [(k, v) for k, v in PERIOD_TYPE_CHOICES if k != '']  # Exclude empty
+        self.fields["period"].choices = [
+            (k, v) for k, v in PERIOD_TYPE_CHOICES if k != ""
+        ]
+
         self.fields["categories"].choices = CATEGORY_TYPE_CHOICES
         self.fields["categories"].required = True
-        if user is not None:
-            self.fields["account"].queryset = Account.objects.filter(user=user)
-        else:
-            self.fields["account"].queryset = Account.objects.none()
 
         if user is not None:
+            self.fields["account"].queryset = Account.objects.filter(user=user)
             currencies = (
                 Account.objects.filter(user=user)
                 .values_list("currency", flat=True)
                 .distinct()
             )
-            self.fields["currency"].initial = list(currencies)[0] if currencies else ''  # Default to first currency
+            self.fields["currency"].initial = list(currencies)[0] if currencies else ""
         else:
-            self.fields["currency"].initial = ''
-
-        self.fields["currency"].required = False
-
-    def save(self, commit=True):
-        budget = super().save(commit=False)
-
-        if not budget.start_date and budget.period:
-            today = date.today()
-            if budget.period == "Week":
-                budget.start_date = today
-                budget.end_date = today + timedelta(days=7)
-            elif budget.period == "Month":
-                budget.start_date = today
-                budget.end_date = today + timedelta(days=30)
-            elif budget.period == "Year":
-                budget.start_date = today
-                budget.end_date = today + timedelta(days=365)
-        if commit:
-            budget.save()
-            self.save_m2m()
-        return budget
+            self.fields["account"].queryset = Account.objects.none()
+            self.fields["currency"].initial = ""
 
     def clean(self):
         cleaned = super().clean()
@@ -270,22 +250,20 @@ class BudgetForm(forms.ModelForm):
         currency = cleaned.get("currency")
 
         if accounts:
-            currencies = set(acc.currency for acc in accounts)
+            currencies = {acc.currency for acc in accounts}
             if len(currencies) > 1:
                 raise forms.ValidationError(
-                    "All selected accounts must use the same currency. Please pick accounts with the same currency."
+                    "All selected accounts must use the same currency."
                 )
 
             if currency and (currency not in currencies):
-                raise forms.ValidationError(
-                    "The selected currency must match the currency of the chosen account(s)."
-                )
+                raise forms.ValidationError("Currency must match selected account(s).")
 
             if not currency:
                 cleaned["currency"] = next(iter(currencies))
         return cleaned
 
-
+# goal form page
 class GoalForm(forms.ModelForm):
     custom_goal_name = forms.CharField(
         required=False,

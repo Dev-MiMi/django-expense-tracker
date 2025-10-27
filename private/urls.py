@@ -17,7 +17,13 @@ from .views import (
     GoalUpdateView,
     GoalDeleteView,
     GoalListView,
-    ProfileView
+    ProfileView,
+    AccountListCreateAPI,
+    AccountDetailAPI,
+    RecordListCreateAPI,
+    RecordDetailAPI,
+    BudgetListCreateAPI,
+    BudgetRetrieveUpdateDestroyAPI,
 )
 
 urlpatterns = [
@@ -29,6 +35,12 @@ urlpatterns = [
         "accounts/<int:pk>/edit/delete/",
         AccountDeleteView.as_view(),
         name="account-delete",
+    ),
+    path(
+        "api/accounts/", AccountListCreateAPI.as_view(), name="account-api-list-create"
+    ),
+    path(
+        "api/accounts/<int:pk>/", AccountDetailAPI.as_view(), name="account-api-detail"
     ),
     path("records/", RecordView.as_view(), name="records"),
     path("records/add/", RecordAddView.as_view(), name="record-add"),
@@ -80,8 +92,13 @@ urlpatterns = [
         GoalCreateView.as_view(),
         name=("goal-add"),
     ),
+    path("profile/", ProfileView.as_view(), name="profile"),
+    path("api/records/", RecordListCreateAPI.as_view(), name="record-api-list-create"),
+    path("api/records/<int:pk>/", RecordDetailAPI.as_view(), name="record-api-detail"),
+    path("api/budgets/", BudgetListCreateAPI.as_view(), name="budget-list-create"),
     path(
-        "profile/",
-        ProfileView.as_view(),
-        name="profile"),
+        "api/budgets/<int:pk>/",
+        BudgetRetrieveUpdateDestroyAPI.as_view(),
+        name="budget-detail",
+    ),
 ]

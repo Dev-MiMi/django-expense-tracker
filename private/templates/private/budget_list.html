@@ -36,6 +36,7 @@
                         <th>Name</th>
                         <th>Amount</th>
                         <th>Spent</th>
+                        <th>Categories</th>
                         <th>Progress</th>
                         <th>Period</th>
                         <th></th>
@@ -47,6 +48,14 @@
                         <td><strong>{{ budget.name }}</strong></td>
                         <td>{{ budget.currency }} {{ budget.amount }}</td>
                         <td>{{ budget.currency }} {{ budget.spent }}</td>
+
+                        <td>
+    {% if budget.categories %}
+        {{ budget.categories|join:", " }}
+    {% else %}
+        <span class="text-muted">No categories</span>
+    {% endif %}
+</td>
 
                         <td style="width: 200px;">
                             {% with percent=budget.spent|divided_by:budget.amount %}
@@ -65,7 +74,7 @@
                         </td>
 
                         <td>
-                            <a href="{% url 'budget-edit' budget.id %}" class="btn btn-sm btn-outline-primary">
+                            <a href="{% url 'budget-detail-edit' budget.id %}" class="btn btn-sm btn-outline-primary">
                                 Edit
                             </a>
                         </td>

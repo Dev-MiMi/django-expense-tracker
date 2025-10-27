@@ -18,6 +18,9 @@ from .models import Account, Record, Budget, Goal
 from django import forms
 from django.shortcuts import redirect
 from public.models import CustomUser
+from rest_framework import generics, permissions
+from .serializers import AccountSerializer, RecordSerializer, BudgetSerializer
+from rest_framework import generics, permissions
 
 
 @login_required
@@ -81,6 +84,25 @@ class AccountDeleteView(LoginRequiredMixin, DeleteView):
         return Account.objects.filter(user=self.request.user)
 
 
+class AccountListCreateAPI(generics.ListCreateAPIView):
+    serializer_class = AccountSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Account.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class AccountDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AccountSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Account.objects.filter(user=self.request.user)
+
+
 class RecordView(LoginRequiredMixin, ListView):
     model = Record
     template_name = "private/record_list.html"
@@ -88,6 +110,25 @@ class RecordView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Record.objects.filter(user=self.request.user).order_by("-date")
+
+
+class RecordListCreateAPI(generics.ListCreateAPIView):
+    serializer_class = RecordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Record.objects.filter(user=self.request.user).order_by("-date")
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class RecordDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = RecordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Record.objects.filter(user=self.request.user)
 
 
 class RecordAddView(LoginRequiredMixin, CreateView):
@@ -223,6 +264,25 @@ class RecordDeleteView(LoginRequiredMixin, DeleteView):
         return Record.objects.filter(user=self.request.user)
 
 
+class BudgetListCreateAPI(generics.ListCreateAPIView):
+    serializer_class = BudgetSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Budget.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class BudgetRetrieveUpdateDestroyAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = BudgetSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Budget.objects.filter(user=self.request.user)
+
+
 class BudgetCreateView(LoginRequiredMixin, CreateView):
     model = Budget
     form_class = BudgetForm
@@ -334,12 +394,11 @@ class GoalUpdateView(LoginRequiredMixin, UpdateView):
         kwargs["user"] = self.request.user
         return kwargs
 
+
 class GoalDeleteView(LoginRequiredMixin, DeleteView):
     model = Goal
     template_name = "private/goal_delete.html"
     success_url = reverse_lazy("goal-list")
-    
+
     def get_queryset(self):
         return Budget.objects.filter(user=self.request.user)
-
-
