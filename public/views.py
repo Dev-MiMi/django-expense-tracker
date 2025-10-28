@@ -5,11 +5,11 @@ from django.views.generic import CreateView
 
 # Create your views here.
 
-
+# Get started page function
 def get_started(request):
     return render(request, "public/getstarted.html")
 
-
+# Register form view
 class RegisterView(CreateView):
     form_class = CustomUserCreation
     template_name = "public/signup.html"

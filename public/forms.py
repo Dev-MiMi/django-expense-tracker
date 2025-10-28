@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import CustomUser
 from django import forms
 
-
+#Register form
 class CustomUserCreation(UserCreationForm):
     class Meta:
         model = CustomUser

@@ -17,7 +17,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-u6rk3p$fsltt)836%a-2j5c*y_=b!n+8g^t+q+-k)8t_*82y&n")
+SECRET_KEY = os.getenv(
+    "SECRET_KEY", "django-insecure-u6rk3p$fsltt)836%a-2j5c*y_=b!n+8g^t+q+-k)8t_*82y&n"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True").lower() == "true"
@@ -27,9 +29,10 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = "public.CustomUser"
 
 from django.urls import reverse_lazy
-LOGIN_URL = '/login/'
+
+LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = reverse_lazy("dashboard")
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = "/login/"
 
 
 # ------------------------------------------------------------
@@ -175,8 +178,8 @@ SESSION_COOKIE_AGE = 240
 SESSION_SAVE_EVERY_REQUEST = True
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
 

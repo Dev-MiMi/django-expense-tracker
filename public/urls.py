@@ -1,6 +1,8 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 from .views import get_started, RegisterView
+from django.contrib.auth.decorators import login_required
+
 
 urlpatterns = [
     path("", get_started, name="get_started"),
@@ -40,4 +42,20 @@ urlpatterns = [
         name="password_reset_complete",
     ),
     path("logout/", auth_views.LogoutView.as_view(next_page="login"), name="logout"),
+    path(
+        "password_change/",
+        auth_views.PasswordChangeView.as_view(
+            template_name="public/password_change_form.html"
+        ),
+        name="password_change",
+    ),
+    path(
+        "password_change/done/",
+        login_required(
+            auth_views.PasswordChangeDoneView.as_view(
+                template_name="public/password_change_done.html",
+            )
+        ),
+        name="password_change_done",
+    ),
 ]
